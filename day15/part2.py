@@ -117,6 +117,7 @@ class RepairDroid:
 			output += "\n"
 		print(output)
 		print("Player:", self.position)
+		print("Found:", self.found)
 
 	def getReverseMove(self, move):
 		if move == Movement.EAST.value:
@@ -150,7 +151,7 @@ class RepairDroid:
 				continue
 			elif tile == Object.UNDISCOVERED.value:
 				choice = key
-			elif tile == Object.OXYGEN_SYSTEM.value:
+			elif tile == Object.OXYGEN_SYSTEM.value and not self.found:
 				return key
 		if choice == None:
 			choice = self.getReverseMove(self.moves[-1])
@@ -163,7 +164,7 @@ class RepairDroid:
 			operation = self.computer.run()
 			if operation.opcode == OPCODE.READ.value:
 				self.computer.inputs.append(self.determineMove())
-				time.sleep(0.1)
+				time.sleep(0.01)
 			operation()
 			if operation.opcode == OPCODE.WRITE.value:
 				break
@@ -174,6 +175,8 @@ class RepairDroid:
 		print(statusReport)
 		direction = self.surroundings()[self.computer.inputs[-1]]
 		if statusReport == Status.FOUND.value:
+			if direction not in self.area:
+				self.moves.append(self.computer.inputs[-1])
 			self.found = True
 			self.position = direction
 			self.area[self.position] = Object.OXYGEN_SYSTEM.value
@@ -189,7 +192,9 @@ class RepairDroid:
 			exit()
 
 	def loop(self):
-		while not self.computer.halted and not self.found:
+		while not self.computer.halted:
+			if self.found and self.position == (0,0):
+				break
 			self.visualize()
 			self.remoteControl()
 
@@ -203,7 +208,6 @@ outputs = []
 droid = RepairDroid(memory, inputs, outputs)
 
 
-while not droid.computer.halted and not droid.found:
-	droid.loop()
+droid.loop()
 
 saveMap(droid)
