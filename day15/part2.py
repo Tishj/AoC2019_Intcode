@@ -164,7 +164,7 @@ class RepairDroid:
 			operation = self.computer.run()
 			if operation.opcode == OPCODE.READ.value:
 				self.computer.inputs.append(self.determineMove())
-				time.sleep(0.01)
+				time.sleep(0.1)
 			operation()
 			if operation.opcode == OPCODE.WRITE.value:
 				break

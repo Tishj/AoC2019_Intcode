@@ -1,0 +1,6 @@
+NOT C T
+OR D J
+AND T J
+NOT A T
+OR T J
+WALK

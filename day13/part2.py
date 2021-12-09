@@ -141,7 +141,7 @@ class Arcade:
 			tile = Ball(x,y)
 			self.tiles[position] = tile
 		else:
-			print("INVALID TILEID")
+			# print("INVALID TILEID")
 			exit()
 		self.updateScreen(tile)
 	
@@ -185,7 +185,7 @@ class ArcadeAI:
 			self.ball_trajectory = 1
 		else:
 			self.ball_trajectory = -1
-		print("Difference:", difference, self.ball_trajectory)
+		# print("Difference:", difference, self.ball_trajectory)
 
 	def move(self):
 		position = self.getPosition(TileID.PADDLE.value)
@@ -195,7 +195,7 @@ class ArcadeAI:
 		self.updateTrajectory(ballPosition)
 
 		if self.oldBallPosition and ballPosition[1] < self.oldBallPosition[1]:
-			print("MOVING UP")
+			# print("MOVING UP")
 			self.ball_trajectory *= -1
 			difference = position[0] - ballPosition[0]
 			if difference == 0:
@@ -206,9 +206,9 @@ class ArcadeAI:
 				move = Move.RIGHT.value
 		else:
 			estimated_collision_point = ballPosition[0] + (self.ball_trajectory * (position[1] - ballPosition[1]))
-			print("ESTIMATED_COLLISION", estimated_collision_point)
-			print("MY_X", position[0])
-			print("BALL_X", ballPosition[0])
+			# print("ESTIMATED_COLLISION", estimated_collision_point)
+			# print("MY_X", position[0])
+			# print("BALL_X", ballPosition[0])
 			difference = position[0] - estimated_collision_point
 			if difference == 0:
 				move = Move.NEUTRAL.value
